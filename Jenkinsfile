@@ -5,56 +5,53 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
-                // Example for Python
-                sh 'pip install -r requirements.txt'
+                bat 'mvn clean install'  // Use 'bat' instead of 'sh' for Windows
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running Unit and Integration Tests...'
-                // Example for pytest
-                sh 'pytest tests/'
+                echo 'Running unit and integration tests...'
+                bat 'mvn test'
             }
         }
 
         stage('Code Analysis') {
             steps {
-                echo 'Analyzing Code...'
-                // Example for pylint
-                sh 'pylint *.py'
+                echo 'Running code analysis...'
+                bat 'mvn sonar:sonar'
             }
         }
 
         stage('Security Scan') {
             steps {
-                echo 'Running Security Scan...'
-                // Example for Bandit
-                sh 'bandit -r .'
+                echo 'Running security scan...'
+                // Replace the Linux-specific commands with Windows equivalents, if necessary
+                bat 'echo Security Scan not implemented for Windows'
             }
         }
 
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to Staging...'
-                // Placeholder for deployment steps
-                sh 'echo "Deploy to staging server here"'
+                echo 'Deploying to staging...'
+                // Add your deployment commands here
+                bat 'echo Deploy to Staging not implemented for Windows'
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running Integration Tests on Staging...'
-                // Placeholder for running tests on staging
-                sh 'echo "Run tests against staging server"'
+                echo 'Running integration tests on staging...'
+                // Add your test commands here
+                bat 'echo Integration Tests not implemented for Windows'
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying to Production...'
-                // Placeholder for deployment steps
-                sh 'echo "Deploy to production server here"'
+                echo 'Deploying to production...'
+                // Add your deployment commands here
+                bat 'echo Deploy to Production not implemented for Windows'
             }
         }
     }
@@ -64,11 +61,10 @@ pipeline {
             echo 'Sending Notifications...'
             emailext (
                 to: 'rnairadithi05@gmail.com',
-                subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_STATUS})",
-                body: """\
-                Check console output at ${env.BUILD_URL} to view the results.
-                """
+                subject: "Jenkins Pipeline - Build #${env.BUILD_NUMBER} - ${currentBuild.result}",
+                body: "Build #${env.BUILD_NUMBER} completed with status: ${currentBuild.result}"
             )
         }
     }
 }
+
