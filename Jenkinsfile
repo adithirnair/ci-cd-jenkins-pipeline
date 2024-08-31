@@ -7,11 +7,18 @@ pipeline {
                 checkout scm
             }
         }
+        stage('List Workspace Files') {
+            steps {
+                script {
+                    bat 'dir'
+                }
+            }
+        }
         stage('Build') {
             steps {
                 script {
-                    // Example: Install dependencies if you have a requirements.txt
-                    bat 'pip install -r requirements.txt'
+                    // Adjust this if you have a different setup
+                    echo 'No build step required'
                 }
             }
         }
