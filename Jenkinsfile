@@ -1,11 +1,19 @@
 pipeline {
     agent any
 
+    environment {
+        // Set MAVEN_HOME to the directory containing Maven
+        MAVEN_HOME = 'C:\\Users\\rnair\\Downloads\\apache-maven-3.9.9-bin\\apache-maven-3.9.9'
+        // Add Maven's bin directory to the PATH
+        PATH = "${env.MAVEN_HOME}\\bin;${env.PATH}"
+    }
+
     stages {
         stage('Build') {
             steps {
                 echo 'Building...'
-                bat 'mvn clean install'  // Use 'bat' instead of 'sh' for Windows
+                // Maven commands will now use the installation from the specified MAVEN_HOME
+                bat 'mvn clean install'
             }
         }
 
@@ -26,7 +34,6 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Running security scan...'
-                // Replace the Linux-specific commands with Windows equivalents, if necessary
                 bat 'echo Security Scan not implemented for Windows'
             }
         }
@@ -34,7 +41,6 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to staging...'
-                // Add your deployment commands here
                 bat 'echo Deploy to Staging not implemented for Windows'
             }
         }
@@ -42,7 +48,6 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running integration tests on staging...'
-                // Add your test commands here
                 bat 'echo Integration Tests not implemented for Windows'
             }
         }
@@ -50,7 +55,6 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to production...'
-                // Add your deployment commands here
                 bat 'echo Deploy to Production not implemented for Windows'
             }
         }
@@ -67,4 +71,3 @@ pipeline {
         }
     }
 }
-
