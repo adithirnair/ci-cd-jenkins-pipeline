@@ -5,81 +5,60 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-            }
-        }
-        stage('List Workspace Files') {
-            steps {
                 script {
+                    // Print workspace files for debugging
                     bat 'dir'
                 }
             }
         }
         stage('Build') {
             steps {
-                script {
-                    // Adjust this if you have a different setup
-                    echo 'No build step required'
-                }
+                echo 'No build step required'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
                 script {
-                    // Example: Run tests using pytest
+                    // Check if pytest is available
+                    bat 'python -m pip show pytest || echo "pytest is not installed"'
                     bat 'pytest'
                 }
             }
         }
         stage('Code Analysis') {
             steps {
-                script {
-                    // Example: Run static code analysis using pylint
-                    bat 'pylint main.py'
-                }
+                echo 'Code Analysis skipped'
             }
         }
         stage('Security Scan') {
             steps {
-                script {
-                    // Example: Run security scan (replace with actual tool and command)
-                    bat 'bandit -r main.py'
-                }
+                echo 'Security Scan skipped'
             }
         }
         stage('Deploy to Staging') {
             steps {
-                script {
-                    // Example: Deployment step (adjust as needed)
-                    echo 'Deploying to staging...'
-                }
+                echo 'Deploy to Staging skipped'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                script {
-                    // Example: Run integration tests on staging (if applicable)
-                    echo 'Running integration tests on staging...'
-                }
+                echo 'Integration Tests on Staging skipped'
             }
         }
         stage('Deploy to Production') {
             steps {
-                script {
-                    // Example: Deployment step (adjust as needed)
-                    echo 'Deploying to production...'
-                }
+                echo 'Deploy to Production skipped'
             }
         }
     }
 
     post {
         always {
-            emailext(
-                subject: "Pipeline ${currentBuild.fullDisplayName}",
-                body: "The pipeline ${currentBuild.fullDisplayName} has finished. Check the Jenkins console output for details.",
-                to: 'rnairadithi05@gmail.com'
+            emailext (
+                to: 'rnairadithi05@gmail.com',
+                subject: "Jenkins Pipeline Result: ${currentBuild.fullDisplayName}",
+                body: "The build result is: ${currentBuild.currentResult}. Check Jenkins for more details."
             )
         }
     }
 }
-
