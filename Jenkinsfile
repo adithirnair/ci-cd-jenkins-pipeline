@@ -60,16 +60,14 @@ pipeline {
 
         stage('Post Actions') {
             steps {
-                emailext(
-    to: 'rnairadithi05@gmail.com',
-    subject: "Build ${currentBuild.fullDisplayName}",
-    body: "Build ${currentBuild.fullDisplayName} completed with status: ${currentBuild.currentResult}",
-    attachLog: true, // Optional: Attach build log
-    compressLog: true // Optional: Compress build log
+              emailext(
+                    to: 'rnairadithi05@gmail.com',
+                    subject: "Build ${currentBuild.fullDisplayName}",
+                    body: "Build ${currentBuild.fullDisplayName} completed with status: ${currentBuild.currentResult}"
 )
 
-                )
+            }
             }
         }
     }
-}
+
