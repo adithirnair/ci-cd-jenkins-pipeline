@@ -1,5 +1,16 @@
 pipeline {
     agent any
+    
+    stage('Initial Test Email') {
+    steps {
+        emailext(
+            to: 'rnairadithi05@gmail.com',
+            subject: "Test Email",
+            body: "This is a test email to verify email sending."
+        )
+    }
+}
+
 
     stages {
         stage('Checkout') {
