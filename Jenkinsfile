@@ -16,11 +16,18 @@ pipeline {
                 echo 'No build step required'
             }
         }
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    bat 'python -m pip install pytest'
+                }
+            }
+        }
         stage('Unit and Integration Tests') {
             steps {
                 script {
                     // Check if pytest is available
-                    bat 'python -m pip show pytest || echo "pytest is not installed"'
+                    bat 'python -m pip show pytest'
                     bat 'pytest'
                 }
             }
