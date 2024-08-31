@@ -1,7 +1,8 @@
 pipeline {
     agent any
-    
-    stage('Initial Test Email') {
+
+    stages {
+        stage('Initial Test Email') {
     steps {
         emailext(
             to: 'rnairadithi05@gmail.com',
@@ -11,8 +12,6 @@ pipeline {
     }
 }
 
-
-    stages {
         stage('Checkout') {
             steps {
                 checkout scm
