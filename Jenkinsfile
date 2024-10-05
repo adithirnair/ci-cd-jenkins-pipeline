@@ -2,93 +2,84 @@ pipeline {
     agent any
 
     stages {
-        stage('Initial Test Email') {
-            steps {
-                echo "tested"
-            }
-             post {
-                always{
-                      mail to: 'rnairadithi05@gmail.com',
-                      subject: "Test Email",
-                      body: "This is a test email to verify email sending."
-        }
-    }
-            
-   
-}
-
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
+        // Stage 1: Build
         stage('Build') {
             steps {
-                echo ' build step started and completed'
+                echo 'Stage 1: Build - Task: Compile and package the Python project'
+                echo 'Tool: setup.py or pip for dependency management'
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                bat 'python -m pip install pytest'
-            }
-        }
-
+        // Stage 2: Unit and Integration Tests
         stage('Unit and Integration Tests') {
             steps {
-                dir('src') {
-                    bat 'pytest'
+                echo 'Stage 2: Unit and Integration Tests - Task: Run unit tests and integration tests'
+                echo 'Tool: pytest for testing'
+            }
+            post {
+                always {
+                    mail to: 'rnairadithi05@gmail.com',
+                         subject: "Unit and Integration Tests: ${currentBuild.fullDisplayName}",
+                         body: "Unit and Integration Tests completed with status: ${currentBuild.currentResult}"
                 }
             }
         }
 
+        // Stage 3: Code Analysis
         stage('Code Analysis') {
             steps {
-                echo 'Code Analysis step'
+                echo 'Stage 3: Code Analysis - Task: Analyze the code for quality and standards'
+                echo 'Tool: pylint for code analysis'
             }
         }
 
+        // Stage 4: Security Scan
         stage('Security Scan') {
             steps {
-                echo 'Security Scan step'
+                echo 'Stage 4: Security Scan - Task: Perform a security scan on the code'
+                echo 'Tool: bandit for security scanning'
+            }
+            post {
+                always {
+                    mail to: 'rnairadithi05@gmail.com',
+                         subject: "Security Scan: ${currentBuild.fullDisplayName}",
+                         body: "Security Scan completed with status: ${currentBuild.currentResult}"
+                }
             }
         }
 
+        // Stage 5: Deploy to Staging
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploy to Staging step'
+                echo 'Stage 5: Deploy to Staging - Task: Deploy the application to a staging environment'
+                echo 'Tool: AWS CLI or Ansible for deployment automation'
             }
         }
 
+        // Stage 6: Integration Tests on Staging
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Integration Tests on Staging step'
+                echo 'Stage 6: Integration Tests on Staging - Task: Run integration tests in the staging environment'
+                echo 'Tool: pytest for integration tests'
             }
         }
 
+        // Stage 7: Deploy to Production
         stage('Deploy to Production') {
             steps {
-                echo 'Deploy to Production step'
+                echo 'Stage 7: Deploy to Production - Task: Deploy the application to a production environment'
+                echo 'Tool: AWS CLI or Ansible for production deployment'
             }
         }
+    }
 
-        stage('Post Actions') {
-            steps {
-                echo 'complete'
-            }
-            post{
-                always{
-                    mail to: 'rnairadithi05@gmail.com',
-                    subject: "Build ${currentBuild.fullDisplayName}",
-                    body: "Build ${currentBuild.fullDisplayName} completed with status: ${currentBuild.currentResult}"
-                    }
+    post {
+        always {
+            echo 'Pipeline completed.'
+        }
     }
 }
-    }
-}
-
-                
+     
             
             
             
