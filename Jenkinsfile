@@ -3,13 +3,18 @@ pipeline {
 
     stages {
         stage('Initial Test Email') {
-    steps {
-        emailext(
-            to: 'rnairadithi05@gmail.com',
-            subject: "Test Email",
-            body: "This is a test email to verify email sending."
-        )
+            steps {
+                echo "tested"
+            }
+             post {
+                always{
+                      mail to: 'rnairadithi05@gmail.com',
+                      subject: "Test Email",
+                      body: "This is a test email to verify email sending."
+        }
     }
+            
+   
 }
 
         stage('Checkout') {
@@ -20,7 +25,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'No build step required'
+                echo ' build step started and completed'
             }
         }
 
@@ -70,16 +75,22 @@ pipeline {
 
         stage('Post Actions') {
             steps {
-                emailext(
-                    to: 'rnairadithi05@gmail.com',
+                echo 'complete'
+            }
+            post{
+                always{
+                    mail to: 'rnairadithi05@gmail.com',
                     subject: "Build ${currentBuild.fullDisplayName}",
                     body: "Build ${currentBuild.fullDisplayName} completed with status: ${currentBuild.currentResult}"
-        )
+                    }
     }
 }
     }
 }
 
+                
+            
+            
             
         
     
